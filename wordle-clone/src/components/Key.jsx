@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../App";
 
 function Key({keyVal, bigKey}) {
-    const selectLetter = () => {
+    const { board, setBoard, currAttempt, setCurrentAttempt } = useContext(AppContext);
 
+    const selectLetter = (row, col) => {
+        const newBoard = [...board]
+        newBoard[currAttempt.attempt][currAttempt.letterPos] = keyVal;
+        setBoard(newBoard);
+        setCurrentAttempt({...currAttempt, letterPos: currAttempt.letterPos + 1})
     }
 
     return(
