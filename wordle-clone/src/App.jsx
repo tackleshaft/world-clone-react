@@ -1,18 +1,13 @@
-import React, {useState} from 'react';
+import React, {createContext, useState} from 'react';
 import './App.css';
 import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
+import { boardDefault } from './components/Words';
+
+
+export const AppContext = createContext(boardDefault);
 
 function App () {
-  const boardDefault = [
-    ['', '', '', '', ''],
-    ['', '', '', '', ''],
-    ['', '', '', '', ''],
-    ['', '', '', '', ''],
-    ['', '', '', '', ''],
-    ['', '', '', '', '']
-];
-
 
   const [board, setBoard] = useState(boardDefault)
 
@@ -21,8 +16,12 @@ function App () {
         <nav>
           <h1>Wordle</h1>
         </nav>
-        <Board board={board}/>
-        <Keyboard />
+        <AppContext.Provider value={{board, setBoard}}>
+          <div className='game'>
+            <Board />
+            <Keyboard />
+          </div>
+        </AppContext.Provider>
     </div>
   )
 }
