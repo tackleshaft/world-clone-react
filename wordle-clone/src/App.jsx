@@ -12,6 +12,7 @@ function App () {
   const [board, setBoard] = useState(boardDefault)
   const [currAttempt, setCurrentAttempt] = useState({attempt: 0, letterPos: 0})
   const [wordSet, setWordSet] = useState(new Set())
+  const [disabledLetters, setDisabledLetters] = useState([])
 
   const correctWord = "RIGHT";
 
@@ -37,7 +38,22 @@ function App () {
   }
   const onEnter = () => {
     if (currAttempt.letterPos !== 5) return;
-    setCurrentAttempt({attempt: currAttempt.attempt + 1, letterPos: 0})
+
+    let currWord = "";
+    for (let i = 0; i < 5; i++) {
+      currWord += board[currAttempt.attempt][i];
+    }
+
+    if (wordSet.has(currWord.toLowerCase())) {
+      setCurrentAttempt({attempt: currAttempt.attempt + 1, letterPos: 0})
+    } else {
+      alert('Word not found')
+    }
+    
+    if (currWord === correctWord) {
+      alert('You Won')
+    }
+
   }
 
   return (
@@ -53,7 +69,9 @@ function App () {
             onSelectLetter, 
             onDelete, 
             onEnter,
-            correctWord}}
+            correctWord,
+            setDisabledLetters,
+            disabledLetters}}
         >
           <div className='game'>
             <Board />
